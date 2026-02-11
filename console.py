@@ -67,7 +67,11 @@ class HBNBCommand(cmd.Cmd):
                 _id = pline[0].replace('\"', '')
                 pline = pline[2].strip()
                 if pline:
-                    if pline[0] == '{' and pline[-1] == '}' and type(eval(pline)) is dict:
+                    if pline[
+                        0
+                        ] == '{' and pline[
+                            -1
+                            ] == '}' and type(eval(pline)) is dict:
                         _args = pline
                     else:
                         _args = pline.replace(',', '')
@@ -180,7 +184,7 @@ class HBNBCommand(cmd.Cmd):
 
         key = c_name + "." + c_id
         try:
-            del(storage.all()[key])
+            del (storage.all()[key])
             storage.save()
         except KeyError:
             print("** no instance found **")
