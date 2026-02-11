@@ -4,6 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from models.base_model import Base
 
+
 class DBStorage:
     """Database storage class for MySQL using SQLAlchemy"""
     __engine = None
@@ -19,7 +20,10 @@ class DBStorage:
         HBNB_MYSQL_DB = getenv("HBNB_MYSQL_DB")
 
         self.__engine = create_engine(
-            f"mysql+mysqldb://{HBNB_MYSQL_USER}:{HBNB_MYSQL_PWD}@{HBNB_MYSQL_HOST}/{HBNB_MYSQL_DB}",
+            'mysql+mysqldb://{}:{}@{}/{}'.format(
+                HBNB_MYSQL_USER, HBNB_MYSQL_PWD,
+                HBNB_MYSQL_HOST, HBNB_MYSQL_DB
+            ),
             pool_pre_ping=True
         )
 
@@ -46,5 +50,6 @@ class DBStorage:
     def reload(self):
         """Create tables and session"""
         Base.metadata.create_all(self.__engine)
-        session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        session_factory = sessionmaker(bind=self.__engine,
+                                       expire_on_commit=False)
         self.__session = scoped_session(session_factory)()
